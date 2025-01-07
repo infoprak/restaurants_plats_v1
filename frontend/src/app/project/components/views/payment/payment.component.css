@@ -1,0 +1,73 @@
+p[name="spacer"]
+{
+    margin: 2rem 0 1rem 0;
+    text-decoration: underline;
+}
+.payment
+{
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+.payment > img
+{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 1px 3px 6px #00000080;
+    opacity: .7;
+}
+
+.payment-form
+{
+    position: absolute;
+    top: 0;
+    left:0;
+    padding: 1rem;
+    width: 100%;
+}
+
+.card-header
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-group,
+.card-header * {background: #ffffff80; backdrop-filter: blur(1px); border-radius: 5px; padding: 0 2px;}
+.card-header h3{font-size: 1.4rem; color: #3d3d3d; font-weight: 700;}
+.card-header p{font-size: .9rem; color: #3d3d3d; }
+
+.card-decorator img{ height: 40px; width: auto;}
+
+.card-number
+{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-number .form-group,
+.card-details .form-group
+{
+    width: 100%;
+    background: rgba(255,255,255,.8);
+    border: 1px solid #ffffff;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-right: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 1px 2px 3px #00000020;
+}
+
+.card-details
+{
+    margin-top: 10px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 25%;
+    grid-gap: 5px;
+}

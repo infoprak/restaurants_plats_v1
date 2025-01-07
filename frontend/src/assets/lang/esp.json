@@ -1,0 +1,30 @@
+{
+    "menu":{
+        "order_btn":"Pedir",
+        "cart":"Cesta",
+        "extras_1":"Ingrediente extra 😋",
+        "extras_2":"Así se disfruta 🤤",
+        "extras_3":"Sin extras... 😱",
+        "note":"¿Quieres que tengamos algo en cuenta?",
+        "total":"TOTAL",
+        "form":
+        {
+            "name":"Nombre",
+            "phone":"Teléfono",
+            "date":"Fecha",
+            "time":"¿A qué hora vendrás?"
+        },
+        "buttons":
+        {
+            "cancel":"Seguir pidiendo",
+            "confirm": "Finalizar"
+        },
+        "confirmation":
+        {
+            "title":"¡Que aproveche!",
+            "subtitle":"¡Estamos preparando su pedido!",
+            "text":"Gracias por su confianza, le avisamos cuando tengamos su pedido preparado, ¡que aproveche!",
+            "total":"Total"
+        }
+    }
+}

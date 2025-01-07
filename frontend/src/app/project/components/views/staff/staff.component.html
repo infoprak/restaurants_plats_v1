@@ -1,0 +1,47 @@
+<section>
+    <header class="page_padding">
+        <img src="/assets/baletta.png">
+    </header>
+
+    <div class="body">
+        <div class="input">
+            <label>Número de taula</label>
+            <input type="number" #table_number>
+        </div>
+        <div class="searcher">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input 
+              #searcher_input
+              type="text"
+              (input)="filterPlates(searcher_input)"
+              (focus)="option_list.classList.remove('hide')">
+            <div class="option-list hide" #option_list>
+                <div 
+                  class="option"
+                  *ngFor="let p of this.plates"
+                  (click)="addPlate(p, searcher_input, option_list)"
+                >{{p.name}}</div>
+            </div>
+        </div>
+        <div class="comand-list">
+            <div class="plate" *ngFor="let p of this.commanda">
+                <h3>{{p.name}}</h3>
+                <i class="fa-solid fa-trash" (click)="removePlate(p)"></i>
+                <!-- EXTRES -->
+                <label>Extres:</label>
+                <div class="extras-list hide" #extras_list>
+                    <div
+                      #extra
+                      class="extra"
+                      *ngFor="let e of p.extras"
+                      (click)="e.selected=1; selectExtra(extra, e)"
+                    >{{e.name}}</div>
+                </div>
+                <button class="extra" (click)="showExtras(extras_list)">Afegir extra <i class="fa-solid fa-chevron-down"></i></button>
+                <label>Nota:</label>
+                <textarea #nota (input)="updateNote(nota, p)"></textarea>
+            </div>
+            <button class="main-btn" (click)="finishOrder(table_number)">Enviar</button>
+        </div>
+    </div>
+</section>

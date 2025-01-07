@@ -1,0 +1,266 @@
+<!-- LOADING -->
+ <ng-container  *ngIf="this.page_state == 'Loading'">
+    <section>
+        <header class="page_padding">
+            <img src="/assets/baletta.png">
+        </header>
+        <div class="loading-box">
+            <div class="load-animation"></div>
+        </div>
+    </section>
+ </ng-container>
+
+<!-- MENU -->
+<ng-container *ngIf="this.page_state == 'Menu'">
+    <section>
+        <header class="page_padding">
+            <div class="goBack" (click)="this.router.navigate([''])"><i class="fa-solid fa-chevron-left"></i></div>
+            <img src="/assets/baletta.png">
+        </header>
+        <div class="content">
+            <div class="menu page_padding">
+                <div class="legend">
+                    <div class="legend-element" *ngFor="let l of this.labels">
+                        <i [ngClass]="l.icon"></i>
+                        <p>{{l.label}}</p>
+                    </div>
+                </div>
+                <div class="plat-list">
+                    <div
+                      *ngFor="let p of this.menu.plats" 
+                      (click)="dishDetails(p, popup)"
+                      [ngClass]="{'plat':true, 'index':p.index!=null}"
+                      [attr.id]="setAttributeId(p.index)"
+                    >
+                        <div class="column">
+                            <div class="more-details"><i class="fa-solid fa-eye"></i></div>
+                            <div class="details">
+                                <img src="/assets/pitzza.png" alt="">
+                                <div class="labels" *ngIf="p.labels.length > 0">
+                                    <div class="label" *ngFor="let l of p.labels">
+                                        <i [ngClass]="l.icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <h4>{{p.name}}</h4>
+                                <p>{{p.description}}</p>
+                                <b>{{p.price}} €</b>
+                            </div>
+                        </div>
+                        <div class="quantity">
+                            <button type="button" (click)="addPlate($event, p)">+</button>
+                            <p>{{p.quantity}}</p>
+                            <button type="button" (click)="removePlate($event, p)">-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <a class="box" *ngFor="let c of this.clasification" (click)="scrollTo(c.name)">
+                    <img [attr.src]="'/assets/plate_cls_'+c.id+'.png'">
+                    {{c.name}}
+                </a>
+            </nav>
+        </div>
+        <div 
+          class="cart"
+          *ngIf="this.commanda.plats.length > 0"
+          [attr.items]="this.commanda.plats.length"
+          (click)="showCart()"
+        ><i class="fa-solid fa-cart-shopping"></i> {{this.langJSON.order_btn}}</div>
+        <div class="popup hide" #popup (click)="popup.classList.add('hide')">
+            <button class="close" (click)="popup.classList.add('hide')"><i class="fa-solid fa-xmark"></i></button>
+            <div class="card" *ngIf="this.plate" (click)="$event.stopPropagation()">
+                <img src="/assets/pitzza.png">
+                <h3>{{this.plate.name}}</h3>
+                <p>{{this.plate.description}}</p>
+                <b>{{this.plate.price}} €</b>
+                <button type="button" (click)="addPlate($event, this.plate);popup.classList.add('hide')">Afegir</button>
+            </div>
+        </div>
+    </section>
+</ng-container>
+
+<!-- FINISH ORDER -->
+<ng-container *ngIf="this.page_state == 'Order'">
+    <div class="popup-calendar hide" #calendar>
+        <div class="calendar">
+            <div  class="calendar-header">
+                <i class="fa-solid fa-caret-left" (click)="changeMonth(-1)"></i>
+                <div>
+                    <h3>{{this.month.name}}</h3>
+                    <p>{{this.month.year}}</p>
+                </div>
+                <i class="fa-solid fa-caret-right" (click)="changeMonth(1)"></i>
+            </div>
+            <div class="days-header">
+                <div class="day-name" *ngFor="let d of this.dayNames">{{d}}</div>
+            </div>
+            <div class="days">
+                <div 
+                  #calendar_day
+                  [ngClass]="{'day':true, 'past':d.past}"
+                  class="day"
+                  *ngFor="let d of this.month.days" 
+                  (click)="checkDate(calendar_day, d.number, d.holiday, d.past)"
+                >
+                    <p [ngClass]="{'holiday':d.holiday}">{{d.number}}</p>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="btn-secondary" (click)="calendar.classList.add('hide')">Cancelar</button>
+                <button class="main-btn" (click)="acceptar(); calendar.classList.add('hide')">Acceptar</button>
+            </div>
+        </div>
+    </div>
+    <section class="order">
+        <header class="page_padding">
+            <div class="goBack" (click)="goToMenu()"><i class="fa-solid fa-chevron-left"></i></div>
+            <img src="/assets/baletta.png">
+        </header>
+        <h4 class="page_padding">{{this.langJSON.cart}}</h4>
+        <div class="comand-list">
+            <img src="/assets/logo_baletta.png" alt="" class="overlay">
+            <div class="comand-element" *ngFor="let c of this.commanda.plats" #card_element>
+                <div class="header">
+                    <h3>{{c.name}}</h3>
+                    <h3>{{c.price}} €</h3>
+                </div>
+                <ng-container *ngFor="let l of c.extras">
+                    <div class="line" *ngIf="l.selected == 1">
+                        <p>{{l.name}}</p>
+                        <p>+ {{l.price}} €</p>
+                    </div>  
+                </ng-container>
+                <div class="extra-elements collapsed" #extra_elements>
+                    <p
+                      #ingredient_p
+                      [ngClass]="{'ingredient':true, 'active':i.selected}"
+                      *ngFor="let i of c.extras" 
+                      (click)="selectIngredient(c, i, ingredient_p, label_extra_collape)"
+                    >{{i.name}}</p>
+                </div>
+                <div class="extra-btn collapsed" #extraIngredient (click)="uncollapseExtras(extraIngredient, extra_elements)">
+                    <p name="collapsed">{{this.langJSON.extras_1}}</p>
+                    <p name="uncollapsed" #label_extra_collape>{{this.langJSON.extras_2}}</p>
+                    <i class="fa-solid fa-chevron-down" name="collapsed"></i>
+                    <i class="fa-solid fa-chevron-up" name="uncollapsed"></i>
+                </div>
+                <p name="note" (click)="text.classList.remove('hide')">{{this.langJSON.note}}</p>
+                <p 
+                  #text
+                  [contentEditable]="true"
+                  type="text" 
+                  class="note hide"
+                  [attr.length]="text.textContent?.length"
+                  (input)="setAttr(text)"
+                  (blur)="c.addNote(text.textContent);text.textContent=c.note;this.updateLocalstorage()"
+                >{{c.note}}</p>
+            </div>
+            <div class="comand-element total">
+                <div class="header">
+                    <h2>{{this.langJSON.total}}:</h2>
+                    <h2>{{this.commanda.getTotal()}} €</h2>
+                </div>
+            </div>
+        </div>
+        <div  *ngIf="this.table == -1">
+            <form class="page_padding">
+                <div class="input-box">
+                    <label>{{this.langJSON.form.name}}</label>
+                    <input
+                      #name
+                      type="text"
+                      (blur)="this.checkName(name)"
+                      [attr.value]="this.user.name"
+                    >
+                </div>
+                <div class="input-box">
+                    <label>{{this.langJSON.form.phone}}</label>
+                    <input
+                      #phone
+                      type="text"
+                      [attr.value]="this.user.phone"
+                      (blur)="checkPhone(phone)"
+                    >
+                </div>
+            </form>
+            <div class="datetime page_padding">
+                <div class="input-box">
+                    <label>{{this.langJSON.form.date}}</label>
+                    <p 
+                      #date
+                      class="input date-input"
+                      (click)="calendar.classList.remove('hide')"
+                    >dd/mm/yyyy</p>
+                </div>
+                <label name="shifts">{{this.langJSON.form.time}}</label>
+                <div class="torn-list" #torn_list>
+                    <p
+                      #p
+                      *ngFor="let t of this.torns"
+                      (click)="setActive(p, torn_list)"
+                    >{{t}}</p>
+                </div>
+                <app-payment></app-payment>
+                <p class="error hide">No s'ha pogut pagar. Verifica que les dades siguin correctes.</p>
+            </div>
+            <div class="buttons">
+                <button type="button" (click)="goToMenu()">{{this.langJSON.buttons.cancel}}</button>
+                <button type="button" class="main-btn" #finishBtn (click)="finishOrder(name, phone, date, torn_list, finishBtn)">{{this.langJSON.buttons.confirm}}</button>
+            </div>
+        </div>
+        <div class="buttons" *ngIf="this.table > -1">
+            <button type="button" (click)="goToMenu()">{{this.langJSON.buttons.cancel}}</button>
+            <button type="button" class="main-btn" #finishBtn (click)="finishOrder(null,null,null,null, finishBtn)">{{this.langJSON.buttons.confirm}}</button>
+        </div>
+
+        
+    </section>
+</ng-container>
+
+<!-- PLAT CONFIRMAT -->
+<ng-container *ngIf="this.page_state == 'Confirmed'">
+    <section id="confirmed">
+        <header class="page_padding">
+            <img src="/assets/baletta.png">
+        </header>
+        <div class="page_padding order-data" *ngIf="this.table < 0">
+            <div class="box">
+                <i class="fa-regular fa-calendar"></i>
+                <p>{{this.commanda.day}}</p>
+            </div>
+            <div class="box">
+                <i class="fa-regular fa-clock"></i>
+                <p>{{this.commanda.time}}</p>
+            </div>
+        </div>
+        <h4 class="page_padding" *ngIf="this.table > -1">Taula {{this.table}}</h4>
+        <div class="page_padding confirmed-text">
+            <h3>{{this.langJSON.confirmation.title}}</h3>
+            <p>{{this.langJSON.confirmation.text}}</p>
+        </div>
+        <div class="comand-list">
+            <img src="/assets/logo_baletta.png">
+            <div class="comand-element" *ngFor="let c of this.commanda.plats">
+                <div class="header">
+                    <h3>{{c.name}}</h3>
+                    <h3>{{c.price}} €</h3>
+                </div>
+                <ng-container *ngFor="let l of c.extras">
+                    <div class="line" *ngIf="l.selected == 1">
+                        <p>{{l.name}}</p>
+                        <p>+ {{l.price}} €</p>
+                    </div>  
+                </ng-container>
+            </div>
+            <div class="comand-element total">
+                <div class="header">
+                    <h2>{{this.langJSON.confirmation.total}}</h2>
+                    <h2>{{this.commanda.getTotal()}} €</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>

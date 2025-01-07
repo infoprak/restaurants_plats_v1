@@ -1,0 +1,30 @@
+{
+    "menu":{
+        "order_btn":"Order",
+        "cart":"Cart",
+        "extras_1":"Extra ingredient 😋",
+        "extras_2":"Looks delicious 🤤",
+        "extras_3":"No extras... 😱",
+        "note":"Should we know anything?",
+        "total":"TOTAL",
+        "form":
+        {
+            "name":"Name",
+            "phone":"Phone",
+            "date":"Date",
+            "time":"When will you come?"
+        },
+        "buttons":
+        {
+            "cancel":"Keep ordering",
+            "confirm": "Finish"
+        },
+        "confirmation":
+        {
+            "title":"Enjoy your meal!",
+            "subtitle":"We are preparing your order!",
+            "text":"Thank you for your trust. We will notify you when your order is ready. Enjoy your meal!",
+            "total":"Total"
+        }
+    }
+}

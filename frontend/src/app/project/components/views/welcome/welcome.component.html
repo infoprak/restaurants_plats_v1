@@ -1,0 +1,10 @@
+<section>
+    <!--<h1>Pizzeria di Baletta</h1>-->
+    <img src="/assets/baletta.png" class="restaurant-name">
+    <div class="lang-list">
+        <div class="lang" *ngFor="let lang of this.languages" (click)="setLanguage(lang)">
+            <h3>{{lang.welcome}}</h3>
+        </div>
+    </div>
+    <img src="/assets/logo_baletta.png" class="restaurant-logo">
+</section>

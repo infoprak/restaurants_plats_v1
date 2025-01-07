@@ -1,0 +1,29 @@
+{
+    "menu":{
+        "order_btn":"Demanar",
+        "cart":"Cistella",
+        "extras_1":"Ingredient extra 😋",
+        "extras_2":"Així es disfruta 🤤",
+        "extras_3":"Sense extres... 😱",
+        "note":"Vols que tinguem algo en compte?",
+        "total":"TOTAL",
+        "form":
+        {
+            "name":"Nom",
+            "phone":"Telèfon",
+            "date":"Data",
+            "time":"A quina hora vindras?"
+        },
+        "buttons":
+        {
+            "cancel":"Seguir demanant",
+            "confirm": "Finalitzar"
+        },
+        "confirmation":
+        {
+            "title":"Que aprofiti!",
+            "text":"Em rebút la seva comanda, gràcies per la confiança. Esperem que disfrutis!!",
+            "total":"Total"
+        }
+    }
+}
